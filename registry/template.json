@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "type": "template",
-  "generatedAtUtc": "2026-05-18T12:17:37.197Z",
+  "generatedAtUtc": "2026-05-18T12:30:21.111Z",
   "packages": [
     {
       "id": "@streamweaver/hello-uptime",
