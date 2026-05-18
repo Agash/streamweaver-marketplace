@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "id": "@streamweaver/hello-uptime",
+  "type": "template",
+  "version": "1.0.0",
+  "name": { "values": { "default": "!uptime starter command" } },
+  "summary": { "values": { "default": "Posts the stream's current uptime when a viewer types !uptime." } },
+  "description": { "values": { "default": "A first-party seed template that demonstrates the chat-command trigger and one chat reply action. Use this as a template-format reference when you author your own." } },
+  "tags": ["command", "starter", "uptime"],
+  "category": "commands",
+  "license": "MIT",
+  "author": { "name": "StreamWeaver", "url": "https://github.com/Agash/StreamWeaver", "verified": true },
+  "homepage": "https://github.com/Agash/StreamWeaver",
+  "repository": "https://github.com/Agash/streamweaver-marketplace",
+  "platforms": ["any"],
+  "yanked": false,
+  "artifact": {
+    "kind": "inline",
+    "sourceUrl": "https://raw.githubusercontent.com/Agash/streamweaver-marketplace/main/packages/templates/@streamweaver--hello-uptime/1.0.0/template.swtemplate.json",
+    "sha256": "71f2c7c0835eb7e6133a7cef38ee0e2be07fed1d0228959119acc871d6ce692a",
+    "sizeBytes": 1464,
+    "container": "json",
+    "internalManifestPath": "template.swtemplate.json"
+  },
+  "requires": []
+}

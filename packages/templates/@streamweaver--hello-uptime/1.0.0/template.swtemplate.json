@@ -1,0 +1,53 @@
+{
+  "template": {
+    "schemaVersion": 1,
+    "id": "@streamweaver/hello-uptime",
+    "version": "1.0.0",
+    "title": { "default": "!uptime — post your current uptime in chat" },
+    "description": { "default": "Replies with the stream's elapsed time when a viewer types !uptime." },
+    "tags": ["command", "uptime", "starter"],
+    "category": "commands",
+    "authoredBy": "@streamweaver",
+    "voiceTriggerPolicy": "permitted",
+    "requires": []
+  },
+  "parameters": [
+    {
+      "name": "commandName",
+      "kind": "text",
+      "label": { "default": "Command name" },
+      "default": "uptime",
+      "validation": { "pattern": "^[a-zA-Z0-9_-]+$", "minLength": 2, "maxLength": 32 }
+    },
+    {
+      "name": "replyText",
+      "kind": "multilineText",
+      "label": { "default": "Reply text" },
+      "default": "Live for {uptime}."
+    },
+    {
+      "name": "cooldownSeconds",
+      "kind": "number",
+      "label": { "default": "Cooldown (seconds)" },
+      "default": 30
+    }
+  ],
+  "blueprint": {
+    "id": "{{generated.id}}",
+    "name": "!{{params.commandName}}",
+    "triggers": [
+      {
+        "kind": "command",
+        "command": {
+          "name": "{{params.commandName}}",
+          "minimumRole": "Viewer",
+          "cooldownSeconds": "{{params.cooldownSeconds | number}}"
+        }
+      }
+    ],
+    "actions": [
+      { "type": "chat.reply", "parameters": { "text": "{{params.replyText}}" } }
+    ],
+    "connections": []
+  }
+}

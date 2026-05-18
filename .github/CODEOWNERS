@@ -1,0 +1,19 @@
+# StreamWeaver Marketplace ownership rules.
+
+# Default: any change requires the repo owner.
+*    @Agash
+
+# First-party packages are owner-only.
+/packages/plugins/@streamweaver--    @Agash
+/packages/overlay-components/@streamweaver--    @Agash
+/packages/overlay-components-static/@streamweaver--    @Agash
+/packages/overlay-themes/@streamweaver--    @Agash
+/packages/overlay-presets/@streamweaver--    @Agash
+/packages/templates/@streamweaver--    @Agash
+/packages/template-packs/@streamweaver--    @Agash
+/packages/speech-voices/@streamweaver--    @Agash
+
+# Workflows and schema changes are owner-only.
+/.github/workflows/    @Agash
+/registry/schema/    @Agash
+/site/    @Agash

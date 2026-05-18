@@ -1,0 +1,10 @@
+{
+  "name": "@streamweaver/marketplace-workflows",
+  "private": true,
+  "type": "module",
+  "description": "Internal scripts powering the marketplace CI workflows.",
+  "dependencies": {
+    "ajv": "^8.17.1",
+    "ajv-formats": "^3.0.1"
+  }
+}

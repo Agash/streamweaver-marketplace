@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>StreamWeaver Marketplace</title>
+    <meta name="description" content="Community plugins, blueprint templates, overlays, themes, and voices for StreamWeaver." />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header class="hero">
+      <div class="hero-inner">
+        <h1>StreamWeaver Marketplace</h1>
+        <p>Plugins, blueprint templates, overlays, themes, and voices — built by the StreamWeaver community.</p>
+      </div>
+    </header>
+
+    <main class="container">
+      <section class="controls">
+        <input id="search" type="search" placeholder="Search packages…" aria-label="Search packages" />
+        <div class="filter-row" id="type-filters" role="group" aria-label="Filter by type"></div>
+        <label class="verified-toggle">
+          <input id="verified-only" type="checkbox" />
+          Verified only
+        </label>
+      </section>
+
+      <section id="results" class="results" aria-live="polite"></section>
+
+      <section id="empty" class="empty hidden">
+        <h2>No packages found.</h2>
+        <p>The registry is empty or no entries match your filters.</p>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p>
+        Manifests are MIT-licensed metadata only — package authors retain their own licenses.
+        Source: <a href="https://github.com/Agash/streamweaver-marketplace">github.com/Agash/streamweaver-marketplace</a>
+      </p>
+    </footer>
+
+    <script src="app.js"></script>
+  </body>
+</html>

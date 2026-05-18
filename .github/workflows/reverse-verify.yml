@@ -1,0 +1,52 @@
+name: Reverse Verification
+
+on:
+  schedule:
+    - cron: "0 6 * * *" # Daily at 06:00 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  issues: write
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: "22"
+
+      - name: Reverse-verify pinned hashes
+        run: node scripts/reverse-verify.mjs
+
+      - name: Commit verification state + yank diffs
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add registry/verification-state.json packages/
+          if git diff --cached --quiet; then
+            echo "No changes."
+            exit 0
+          fi
+          git commit -m "chore(verify): daily reverse-verification update"
+          git push
+
+      - name: Open issue on failures
+        if: hashFiles('/tmp/failures.md') != ''
+        uses: actions/github-script@v8
+        with:
+          script: |
+            const fs = require("fs");
+            const body = fs.readFileSync("/tmp/failures.md", "utf8");
+            github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: `Reverse-verification failures (${new Date().toISOString().slice(0, 10)})`,
+              body: `The following packages failed reverse-verification today:\n\n${body}\n\nAffected versions have been marked with \`verificationFailureReason\`.`,
+              labels: ["verification-failure"],
+            });

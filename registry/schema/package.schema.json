@@ -1,0 +1,157 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/Agash/streamweaver-marketplace/main/registry/schema/package.schema.json",
+  "title": "StreamWeaver Marketplace Package Manifest",
+  "type": "object",
+  "required": ["schemaVersion", "id", "type", "version", "name", "author", "artifact"],
+  "properties": {
+    "schemaVersion": { "type": "integer", "const": 1 },
+    "id": {
+      "type": "string",
+      "pattern": "^@[a-z0-9][a-z0-9._-]*\\/[a-z0-9][a-z0-9._-]*$|^[a-z0-9][a-z0-9.]*$",
+      "description": "Canonical package id. Either @scope/name or legacy dot-separated form."
+    },
+    "idAliases": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Alternative ids this package is known by (for local-install matching)."
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "plugin",
+        "overlay-component",
+        "overlay-theme",
+        "overlay-preset",
+        "overlay-component-static",
+        "template",
+        "template-pack",
+        "speech-voice"
+      ]
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+(-[0-9A-Za-z.-]+)?$",
+      "description": "SemVer 2.0 version string."
+    },
+    "name": { "$ref": "#/$defs/localizedString" },
+    "summary": { "$ref": "#/$defs/localizedString" },
+    "description": { "$ref": "#/$defs/localizedString" },
+    "tags": { "type": "array", "items": { "type": "string" } },
+    "category": { "type": ["string", "null"] },
+    "license": { "type": ["string", "null"] },
+    "author": {
+      "type": "object",
+      "required": ["name"],
+      "properties": {
+        "name": { "type": "string" },
+        "url": { "type": ["string", "null"], "format": "uri" },
+        "verified": { "type": "boolean" }
+      }
+    },
+    "homepage": { "type": ["string", "null"], "format": "uri" },
+    "repository": { "type": ["string", "null"], "format": "uri" },
+    "issuesUrl": { "type": ["string", "null"], "format": "uri" },
+    "minHostVersion": { "type": ["string", "null"] },
+    "maxHostVersion": { "type": ["string", "null"] },
+    "platforms": { "type": "array", "items": { "type": "string" } },
+    "yanked": { "type": "boolean" },
+    "verificationFailureReason": { "type": ["string", "null"] },
+    "deprecated": {
+      "oneOf": [
+        { "type": "null" },
+        {
+          "type": "object",
+          "required": ["reason", "deprecatedAtUtc"],
+          "properties": {
+            "successorId": { "type": ["string", "null"] },
+            "reason": { "$ref": "#/$defs/localizedString" },
+            "deprecatedAtUtc": { "type": "string", "format": "date-time" }
+          }
+        }
+      ]
+    },
+    "artifact": {
+      "type": "object",
+      "required": ["kind", "sourceUrl"],
+      "properties": {
+        "kind": { "type": "string", "enum": ["url", "external", "inline"] },
+        "sourceUrl": { "type": "string", "format": "uri" },
+        "sha256": { "type": ["string", "null"], "pattern": "^[0-9a-f]{64}$" },
+        "sizeBytes": { "type": ["integer", "null"], "minimum": 0 },
+        "container": { "type": ["string", "null"] },
+        "internalManifestPath": { "type": ["string", "null"] }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "kind": { "const": "external" } } },
+          "then": { "properties": { "sha256": { "type": "null" } } },
+          "else": { "required": ["sha256"] }
+        }
+      ]
+    },
+    "purchaseUrl": { "type": ["string", "null"], "format": "uri" },
+    "priceHint": {
+      "oneOf": [
+        { "type": "null" },
+        {
+          "type": "object",
+          "required": ["currency", "amount"],
+          "properties": {
+            "currency": { "type": "string", "pattern": "^[A-Z]{3}$" },
+            "amount": { "type": "string" }
+          }
+        }
+      ]
+    },
+    "reproducibleBuild": { "type": "boolean" },
+    "requires": { "type": "array", "items": { "$ref": "#/$defs/dependency" } },
+    "recommends": { "type": "array", "items": { "$ref": "#/$defs/dependency" } },
+    "conflicts": { "type": "array", "items": { "$ref": "#/$defs/dependency" } },
+    "provides": { "type": "array", "items": { "$ref": "#/$defs/dependency" } },
+    "screenshots": { "type": "array", "items": { "type": "string" } },
+    "icon": { "type": ["string", "null"] },
+    "typedBlock": {}
+  },
+  "$defs": {
+    "localizedString": {
+      "type": "object",
+      "required": ["values"],
+      "properties": {
+        "values": {
+          "type": "object",
+          "minProperties": 1,
+          "additionalProperties": { "type": "string" }
+        }
+      }
+    },
+    "dependency": {
+      "type": "object",
+      "required": ["type", "id"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "plugin",
+            "provider",
+            "overlay-component",
+            "overlay-theme",
+            "overlay-preset",
+            "overlay-component-static",
+            "template",
+            "template-pack",
+            "host-capability",
+            "host-version"
+          ]
+        },
+        "id": { "type": "string" },
+        "version": { "type": ["string", "null"] },
+        "minInstances": { "type": ["integer", "null"], "minimum": 0 },
+        "optional": { "type": "boolean" },
+        "reason": { "type": ["string", "null"] },
+        "capabilities": { "type": "array", "items": { "type": "string" } },
+        "permissions": { "type": "array", "items": { "type": "string" } }
+      }
+    }
+  }
+}
